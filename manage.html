@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装修项目管理后台</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial; }
+        body { max-width:1000px; margin:2rem auto; padding:0 1rem; background:#f5f5f5; }
+        .container { background:white; padding:2rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color:#2c3e50; margin-bottom:2rem; text-align:center; }
+        .form-group { margin-bottom:1.5rem; }
+        label { display:block; margin-bottom:0.5rem; font-weight:bold; }
+        input, textarea { width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:4px; }
+        button { background:#3498db; color:white; border:none; padding:1rem; border-radius:4px; width:100%; cursor:pointer; }
+        .project-item { padding:1rem; border-bottom:1px solid #eee; margin:1rem 0; }
+        .project-actions a { color:#3498db; text-decoration:none; margin-right:1rem; }
+        .project-actions button { width:auto; padding:0.5rem 1rem; background:#e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>装修项目管理后台</h1>
+        <div class="form-group">
+            <label>客户姓名</label>
+            <input type="text" id="name" placeholder="张三">
+        </div>
+        <div class="form-group">
+            <label>装修地址</label>
+            <input type="text" id="addr" placeholder="槟城XX小区">
+        </div>
+        <button onclick="create()">创建项目 & 生成链接</button>
+        <div id="list" style="margin-top:2rem;"></div>
+    </div>
+    <script>
+        // 仅改这1行！替换成你的GitHub用户名
+        const USER = "【gyt】"; 
+        const REPO = "zhuangxiu-service"; // 仓库名，和你创建的一致即可
+        // 不用改下面的代码
+        function create() {
+            const name = document.getElementById('name').value;
+            const addr = document.getElementById('addr').value;
+            if(!name||!addr) {alert("请填写客户姓名和装修地址！"); return;}
+            const link = `https://${USER}.github.io/${REPO}/customer-${name}.html`;
+            document.getElementById('list').innerHTML += `
+                <div class="project-item">
+                    <h3>${name} - ${addr}</h3>
+                    <div class="project-actions">
+                        <a href="${link}" target="_blank">客户链接</a>
+                        <button onclick="disable('${name}')">禁用访问</button>
+                    </div>
+                </div>
+            `;
+            alert(`项目创建成功！客户链接：${link}（复制发给客户）`);
+        }
+        function disable(name) {
+            alert(`已禁用${name}的访问权限！请去GitHub修改 customer-${name}.html 里的密码或data-status`);
+        }
+    </script>
+</body>
+</html>
