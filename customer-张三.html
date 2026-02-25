@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【人名】- 装修进度查看</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial; }
+        body { background:#f5f5f5; padding:20px; }
+        /* 密码框样式 */
+        .password-box {
+            max-width:400px; margin:50px auto;
+            background:white; padding:30px; border-radius:12px; text-align:center;
+        }
+        .password-box input {
+            width:100%; padding:12px; margin:15px 0;
+            border:1px solid #ddd; border-radius:8px; font-size:16px;
+        }
+        .password-box button {
+            background:#007bff; color:white; border:none;
+            padding:12px 25px; border-radius:8px; font-size:16px; cursor:pointer;
+        }
+        /* 进度页样式 */
+        .wrap { max-width:800px; margin:auto; background:white; padding:25px; border-radius:12px; }
+        .title { text-align:center; margin-bottom:20px; }
+        .update-badge {
+            background:#ff3333; color:white; padding:8px 12px;
+            border-radius:8px; text-align:center; margin-bottom:20px; font-weight:bold;
+        }
+        .photo img {
+            width:100%; border-radius:10px;
+            margin:15px 0; max-height:500px; object-fit:cover;
+        }
+        .log {
+            background:#f8f9fa; padding:20px; border-radius:10px;
+            line-height:1.7; margin:15px 0;
+        }
+        .info { margin-top:20px; font-size:14px; color:#666; text-align:center; }
+        .denied { text-align:center; padding:5rem 0; color:#e74c3c; }
+    </style>
+</head>
+<body>
+    <!-- 密码输入框（默认显示） -->
+    <div id="passwordBox" class="password-box">
+        <h3>请输入装修进度查看密码</h3>
+        <input type="password" id="pwd" placeholder="请输入密码">
+        <button onclick="checkPwd()">确定进入</button>
+    </div>
+
+    <!-- 进度内容（默认隐藏） -->
+    <div id="content" style="display:none">
+        <!-- 权限开关：allowed=允许，denied=禁用 -->
+        <div id="access" data-status="allowed">
+            <div class="wrap">
+                <div class="title">
+                    <h2>【客户姓名】｜【装修地址】装修进度</h2>
+                </div>
+                <!-- 有更新时保留，无更新可删除 -->
+                <div class="update-badge">
+                    🔥 项目刚刚更新！请查看最新照片与日志
+                </div>
+                <!-- 照片：文件名必须是 latest-客户姓名.jpg -->
+                <div class="photo">
+                    <img src="latest-【客户姓名】.jpg" alt="装修进度照片">
+                </div>
+                <!-- 装修日志 -->
+                <div class="log">
+【2026-03-01】：完成厨房橱柜安装
+【2026-02-28】：完成客厅墙面刷漆
+【2026-02-25】：水电改造完成
+                </div>
+                <!-- 公司信息 -->
+                <div class="info">
+                    【装修公司名称】｜电话：【手机号】
+                </div>
+            </div>
+        </div>
+        <!-- 无权限提示 -->
+        <div class="denied" id="denied" style="display:none;">
+            <h2>抱歉，你暂无该项目的访问权限</h2>
+            <p>如有疑问，请联系：【手机号】</p>
+        </div>
+    </div>
+
+    <script>
+        // 核心：修改密码只改这1行！
+        const RIGHT_PWD = "123456"; // 默认密码，可改成你想要的（如012345）
+        
+        // 密码验证逻辑
+        function checkPwd() {
+            const input = document.getElementById("pwd").value;
+            if(input === RIGHT_PWD) {
+                document.getElementById("passwordBox").style.display = "none";
+                document.getElementById("content").style.display = "block";
+                // 权限控制
+                const status = document.getElementById('access').dataset.status;
+                if (status === 'denied') {
+                    document.getElementById('access').style.display = 'none';
+                    document.getElementById('denied').style.display = 'block';
+                }
+            } else {
+                alert("密码错误！请联系装修公司获取正确密码");
+            }
+        }
+    </script>
+</body>
+</html>
